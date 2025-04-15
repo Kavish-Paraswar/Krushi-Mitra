@@ -33,6 +33,13 @@ Backend: Flask (Python)
 
 Database: MySQL
 
+![image](https://github.com/user-attachments/assets/da28f331-1922-4f37-a3f2-8180718f7dce)
+
+![image](https://github.com/user-attachments/assets/d227c272-a21c-4800-bf2b-7463acce7876)
+
+![image](https://github.com/user-attachments/assets/43a6c147-6a9c-4b80-83a0-a774ca21920c)
+
+![image](https://github.com/user-attachments/assets/dc4bb47f-69f3-49b2-a601-3c8cd52c686a)
 
 
 
