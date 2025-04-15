@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card dashboard-card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center">Add New Fertilizer</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_fertilizer') }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Fertilizer Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <select class="form-select" id="type" name="type" required>
+                                    <option value="Organic">Organic</option>
+                                    <option value="Inorganic">Inorganic</option>
+                                    <option value="Biofertilizer">Biofertilizer</option>
+                                    <option value="Liquid">Liquid</option>
+                                    <option value="Granular">Granular</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="composition" class="form-label">Chemical Composition</label>
+                            <textarea class="form-control" id="composition" name="composition" rows="2" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="suitable_crops" class="form-label">Suitable Crops</label>
+                            <input type="text" class="form-control" id="suitable_crops" name="suitable_crops" required>
+                            <div class="form-text">Separate multiple crops with commas</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="price_per_kg" class="form-label">Price per kg ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="price_per_kg" name="price_per_kg" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="stock_quantity" class="form-label">Initial Stock Quantity (kg)</label>
+                                <input type="number" step="0.01" class="form-control" id="stock_quantity" name="stock_quantity" value="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Fertilizer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

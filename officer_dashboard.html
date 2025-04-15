@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Agricultural Officer Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a href="{{ url_for('add_fertilizer') }}" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-plus-circle"></i> Add Fertilizer
+            </a>
+            <a href="{{ url_for('distribute_fertilizer') }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-box-seam"></i> Distribute
+            </a>
+            <!-- Added Store Management Buttons -->
+            <a href="{{ url_for('add_store') }}" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-shop"></i> Add Store
+            </a>
+            <a href="{{ url_for('view_stores') }}" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-list-ul"></i> View Stores
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Added Store Information Section -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card dashboard-card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Store Information</h5>
+            </div>
+            <div class="card-body">
+                {% if store %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <h6><i class="bi bi-shop"></i> Store Name:</h6>
+                        <p>{{ store.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6><i class="bi bi-geo-alt"></i> Location:</h6>
+                        <p>{{ store.location }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6><i class="bi bi-box-seam"></i> Capacity:</h6>
+                        <p>{{ store.capacity }} kg</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6><i class="bi bi-telephone"></i> Contact:</h6>
+                        <p>{{ store.contact_phone }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> You are not currently managing any store.
+                    <a href="{{ url_for('add_store') }}" class="alert-link">Add a store now</a>.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card dashboard-card bg-primary-light">
+            <div class="card-body">
+                <h5 class="card-title">Farmers in Region</h5>
+                <p class="display-6">{{ farmers|length }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card dashboard-card bg-success-light">
+            <div class="card-body">
+                <h5 class="card-title">Fertilizer Types</h5>
+                <p class="display-6">{{ fertilizers|length }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card dashboard-card bg-warning-light">
+            <div class="card-body">
+                <h5 class="card-title">Total Stock</h5>
+                <p class="display-6">
+                    {{ fertilizers|sum(attribute='stock_quantity')|round(2) }} kg
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card dashboard-card bg-info-light">
+            <div class="card-body">
+                <h5 class="card-title">Recent Distributions</h5>
+                <p class="display-6">{{ distributions|length }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card dashboard-card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Fertilizer Stock</h5>
+            </div>
+            <div class="card-body">
+                {% if fertilizers %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Stock (kg)</th>
+                                    <th>Price/kg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fertilizer in fertilizers %}
+                                <tr>
+                                    <td>{{ fertilizer.name }}</td>
+                                    <td>{{ fertilizer.type }}</td>
+                                    <td>{{ fertilizer.stock_quantity }}</td>
+                                    <td>${{ fertilizer.price_per_kg }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No fertilizers in stock. Add fertilizers to the system.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card dashboard-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Recent Distributions</h5>
+            </div>
+            <div class="card-body">
+                {% if distributions %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Farmer</th>
+                                    <th>Fertilizer</th>
+                                    <th>Quantity</th>
+                                    <th>Date</th>
+                                    <th>Store</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dist in distributions %}
+                                <tr>
+                                    <td>{{ dist.farmer_name }}</td>
+                                    <td>{{ dist.fertilizer_name }}</td>
+                                    <td>{{ dist.quantity }} kg</td>
+                                    <td>{{ dist.issue_date.strftime('%Y-%m-%d') }}</td>
+                                    <td>{{ dist.store_name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No recent distributions found.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card dashboard-card">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0">Farmers in Your Region ({{ officer.region }})</h5>
+            </div>
+            <div class="card-body">
+                {% if farmers %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Land Area</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for farmer in farmers %}
+                                <tr>
+                                    <td>{{ farmer.name }}</td>
+                                    <td>{{ farmer.email }}</td>
+                                    <td>{{ farmer.phone }}</td>
+                                    <td>{{ farmer.land_area }} acres</td>
+                                    <td>{{ farmer.address|truncate(30) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No farmers registered in your region.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

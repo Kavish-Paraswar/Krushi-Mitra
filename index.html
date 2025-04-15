@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center my-5">
+            <h1 class="display-4 mb-4">Fertilizer Management System</h1>
+            <p class="lead mb-5">An advanced system for managing fertilizer distribution and agricultural activities</p>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 dashboard-card bg-primary-light">
+                        <div class="card-body">
+                            <i class="bi bi-person-circle display-4 text-primary mb-3"></i>
+                            <h3>Farmer</h3>
+                            <p>Manage your cultivations and fertilizer requests</p>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('farmer_login') }}" class="btn btn-primary">Login</a>
+                                <a href="{{ url_for('farmer_register') }}" class="btn btn-outline-primary">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card h-100 dashboard-card bg-success-light">
+                        <div class="card-body">
+                            <i class="bi bi-person-badge display-4 text-success mb-3"></i>
+                            <h3>Agricultural Officer</h3>
+                            <p>Manage fertilizer stocks and distributions</p>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('officer_login') }}" class="btn btn-success">Login</a>
+                                <a href="{{ url_for('officer_register') }}" class="btn btn-outline-success">Register</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

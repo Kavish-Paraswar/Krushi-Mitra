@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Farmer Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <a href="{{ url_for('add_cultivation') }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-plus-circle"></i> Add Cultivation
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card dashboard-card bg-primary-light">
+            <div class="card-body">
+                <h5 class="card-title">Total Land Area</h5>
+                <p class="display-6">{{ farmer.land_area }} acres</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card dashboard-card bg-success-light">
+            <div class="card-body">
+                <h5 class="card-title">Active Cultivations</h5>
+                <p class="display-6">{{ cultivations|length }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card dashboard-card bg-info-light">
+            <div class="card-body">
+                <h5 class="card-title">Fertilizer Receipts</h5>
+                <p class="display-6">{{ receipts|length }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card dashboard-card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">My Cultivations</h5>
+            </div>
+            <div class="card-body">
+                {% if cultivations %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Area</th>
+                                    <th>Planted</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cultivation in cultivations %}
+                                <tr>
+                                    <td>{{ cultivation.crop_type }}</td>
+                                    <td>{{ cultivation.area }} acres</td>
+                                    <td>{{ cultivation.planting_date.strftime('%Y-%m-%d') }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if cultivation.status == 'Planted' %}bg-primary
+                                            {% elif cultivation.status == 'Growing' %}bg-warning
+                                            {% else %}bg-success{% endif %}">
+                                            {{ cultivation.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No cultivations found. Add your first cultivation!</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card dashboard-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Fertilizer Receipts</h5>
+            </div>
+            <div class="card-body">
+                {% if receipts %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fertilizer</th>
+                                    <th>Quantity</th>
+                                    <th>Date</th>
+                                    <th>Store</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for receipt in receipts %}
+                                <tr>
+                                    <td>{{ receipt.fertilizer_name }} ({{ receipt.fertilizer_type }})</td>
+                                    <td>{{ receipt.quantity }} kg</td>
+                                    <td>{{ receipt.issue_date.strftime('%Y-%m-%d') }}</td>
+                                    <td>{{ receipt.store_name }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No fertilizer receipts found.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

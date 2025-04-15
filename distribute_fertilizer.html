@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card dashboard-card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="text-center">Distribute Fertilizer</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('distribute_fertilizer') }}">
+                        <div class="mb-3">
+                            <label for="farmer_id" class="form-label">Select Farmer</label>
+                            <select class="form-select" id="farmer_id" name="farmer_id" required>
+                                <option value="" selected disabled>Select Farmer</option>
+                                {% for farmer in farmers %}
+                                    <option value="{{ farmer.farmer_id }}">{{ farmer.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fertilizer_id" class="form-label">Select Fertilizer</label>
+                            <select class="form-select" id="fertilizer_id" name="fertilizer_id" required>
+                                <option value="" selected disabled>Select Fertilizer</option>
+                                {% for fertilizer in fertilizers %}
+                                    <option value="{{ fertilizer.fertilizer_id }}" data-stock="{{ fertilizer.stock_quantity }}">
+                                        {{ fertilizer.name }} ({{ fertilizer.stock_quantity }} kg available)
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="store_id" class="form-label">Select Store</label>
+                            <select class="form-select" id="store_id" name="store_id" required>
+                                <option value="" selected disabled>Select Store</option>
+                                {% for store in stores %}
+                                    <option value="{{ store.store_id }}">{{ store.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity (kg)</label>
+                            <input type="number" step="0.01" class="form-control" id="quantity" name="quantity" required>
+                            <div id="quantityHelp" class="form-text">Available: <span id="availableStock">0</span> kg</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="purpose" class="form-label">Purpose</label>
+                            <textarea class="form-control" id="purpose" name="purpose" rows="2" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100">Distribute Fertilizer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('fertilizer_id').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const availableStock = selectedOption.getAttribute('data-stock') || 0;
+        document.getElementById('availableStock').textContent = availableStock;
+    });
+</script>
+{% endblock %}

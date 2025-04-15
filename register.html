@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card dashboard-card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="text-center">{{ role|capitalize }} Registration</h3>
+                </div>
+                <div class="card-body">
+                    {% if msg %}
+                        <div class="alert alert-info">{{ msg }}</div>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for(role + '_register') }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone">
+                            </div>
+                        </div>
+                        
+                        {% if role == 'farmer' %}
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" name="address" rows="2"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="land_area" class="form-label">Land Area (acres)</label>
+                                    <input type="number" step="0.01" class="form-control" id="land_area" name="land_area">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="region" class="form-label">Region</label>
+                                    <input type="text" class="form-control" id="region" name="region">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="mb-3">
+                                <label for="region" class="form-label">Region</label>
+                                <input type="text" class="form-control" id="region" name="region">
+                            </div>
+                        {% endif %}
+                        
+                        <button type="submit" class="btn btn-success w-100">Register</button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        Already have an account? <a href="{{ url_for(role + '_login') }}">Login here</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
