@@ -1,4 +1,5 @@
-🌾 Krushi Mitra ( Fertilizer Management System )
+ 🌾 Krushi Mitra ( Fertilizer Management System )
+ 
 A  web-based solution for fertilizer distribution between farmers and agricultural officers. Built using Flask, MySQL, and a user-friendly HTML/CSS UI, this system ensures transparency, efficiency, and traceability in crop management and fertilizer allotment.
 
 🚀 Features
